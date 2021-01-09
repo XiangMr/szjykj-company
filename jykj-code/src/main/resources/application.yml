@@ -28,7 +28,7 @@ spring:
       enabled: true
   redis:
     host: 115.28.186.76
-    password: sa1234
+    password: sa123421
     port: 6379
 mybatis:
   mapper-locations: classpath*:mapper/**/*.xml
@@ -49,10 +49,10 @@ setredis:
   ceche: true
 aliyun:
   oss:
-    accesskeyid: xxx
-    accesskeysecret: xxx
-    bucketName: xxx
-    endpoint: xxx
-    folder: xxx
+    accesskeyid: LTAI4GHm991RpFxYDNtWCqRssa
+    accesskeysecret: MzXJxOZgv7aGW1z9D4FlPpVyAKsaZssa
+    bucketName: szjykj
+    endpoint: http://oss-cn-hangzhou.aliyuncs.comdw
+    folder: jykj-imagewd
 
 
