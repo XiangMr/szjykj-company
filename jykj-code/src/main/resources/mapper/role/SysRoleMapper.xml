@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dome.szjykjcompany.mapper.SysRoleMapper">
+
+    <!--<resultMap id="userList" type="com.mybaits.demo.pojo.SysUser">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="phone" property="phone"/>
+        <result column="sex" property="sex"/>
+        <result column="address" property="address"/>
+        <result column="jf" property="jf"/>
+        <result column="created" property="created"/>
+        <result column="salt" property="salt"/>
+    </resultMap>-->
+    <sql id="querySysUserRole">
+        select * from sys_user_role as role
+    </sql>
+
+    <select id="selectUserRoleSet" resultType="string">
+        select a.roleName from sys_user_role as a
+          LEFT JOIN sys_user as b on a.userId=b.uId
+          where b.uId=#{uid}
+    </select>
+
+    <select id="QueryByuidRole" resultType="com.dome.szjykjcompany.pojo.SysRole">
+        <if test="uid!=null and uid!=''">
+            <include refid="querySysUserRole"/>
+            <where>role.userId=#{uid}</where>
+        </if>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dome.szjykjcompany.mapper.SysUserMapper">
+    <sql id="selectList">
+         SELECT * FROM `sys_user`
+    </sql>
+
+
+    <select id="selectUserAllList" resultType="com.dome.szjykjcompany.pojo.SysUser">
+        <include refid="selectList"/>
+    </select>
+
+    <select id="SelectUserLogin" resultType="com.dome.szjykjcompany.pojo.SysUser">
+        <include refid="selectList"/>
+        <if test="#{loginName}!=null and #{loginName}!=null">
+            where loginName=#{loginName}
+        </if>
+
+    </select>
+
+    <update id="UpdateUserTypeError" parameterType="string">
+        UPDATE sys_user AS a SET  a.type='1' where a.loginName=#{loginName}
+    </update>
+    <update id="UpdateUserTypeSeccess" parameterType="string">
+        UPDATE sys_user AS a SET  a.type='0' where a.loginName=#{loginName}
+    </update>
+
+    <update id="UpdateUserLoginDateTime">
+       update sys_user as jykj set jykj.LastLoginTime=#{time} where jykj.loginName=#{loginName}
+    </update>
+
+    <!--通用用户修改-->
+    <update id="updateUserEx" parameterType="com.dome.szjykjcompany.pojo.SysUser">
+        update sys_user as a left join sys_user_extend as b on a.uId=b.uid
+        <set>
+            <if test="username!=null and username!=''">
+                a.userName=#{username},
+            </if>
+            <if test="userImages!=null and userImages!=''">
+                a.userImages=#{userImages},
+            </if>
+            <if test="userExtend!=null">
+                <if test="userExtend.userAddress!=null and userExtend.userAddress!=''">
+                    b.user_address=#{userExtend.userAddress},
+                </if>
+                <if test="userExtend.userSex!=null and userExtend.userSex!=''">
+                    b.user_sex=#{userExtend.userSex},
+                </if>
+                <if test="userExtend.userBirthday!=null and userExtend.userBirthday!=''">
+                    b.user_birthday= #{userExtend.userBirthday},
+                </if>
+                <if test="userExtend.userAge!=null and userExtend.userAge!=''">
+                    b.user_age=#{userExtend.userAge},
+                </if>
+                <if test="userExtend.userPhone!=null and userExtend.userPhone!=''">
+                    b.user_phone=#{userExtend.userPhone},
+                </if>
+                <if test="userExtend.userEmils!=null and userExtend.userEmils!=''">
+                    b.user_emils=#{userExtend.userEmils},
+                </if>
+            </if>
+        </set>
+        <where>
+            a.uId=#{uid}
+        </where>
+    </update>
+
+
+</mapper>

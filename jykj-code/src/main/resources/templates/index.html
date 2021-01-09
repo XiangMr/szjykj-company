@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>layout 后台大布局 - Layui</title>
+    <link rel="stylesheet" th:href="@{./layui/css/layui.css}">
+</head>
+
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">layui 后台布局</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item">
+                <button class="layui-btn layui-btn-lg  layui-btn-normal " style="width: 100%;">
+                    <a data-url="http://www.szkingwall.com/" data-id="20" data-title="关于我们" href="javascript:void(0);"
+                       class="site-demo-active" data-type="tabAdd"><i class="layui-icon">&#xe613;</i>关于我们</a>
+                </button>
+            </li>
+            <li class="layui-nav-item" style="margin-left: 20px;">
+                <button class="layui-btn layui-btn-lg layui-btn-normal">
+                    <a data-url="http://www.baidu.com" data-id="21" data-title="百度一下" href="javascript:void(0);"
+                       class="site-demo-active" data-type="tabAdd"><i class="layui-icon">&#xe68e;</i>百度一下</a>
+                </button>
+            </li>
+            <li class="layui-nav-item" style="margin-left: 20px;">
+                <button class="layui-btn layui-btn-lg dw-refresh">
+                    <i class="layui-icon">&#xe669;</i>页面刷新
+                </button>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <!--用户id隐藏-->
+                    <img class="layui-nav-img" th:src="@{${usera.userImages}}">
+                    <span th:text="${usera.loginname}"></span>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a th:data-url="@{/user/updateUserData.html}" data-id="50" data-title="基本信息"
+                           href="javascript:void(0);" class="site-demo-active" data-type="tabAdd">基本信息</a>
+                    </dd>
+                    <dd>
+                        <a th:data-url="@{/user/updateUserData.html}" data-id="51" data-title="安全设置"
+                           href="javascript:void(0);" class="site-demo-active" data-type="tabAdd">安全设置</a>
+                    </dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:void(0)" id="OutLogin">退出登录</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item" th:each="menus,stat:${menu}">
+                    <a class="" th:href="@{${menus.url}}" th:text="${menus.menuName}"></a>
+                    <dl class="layui-nav-child">
+                        <dd th:each="childer:${menus.chilne}" th:if="${menus.menuId}==${childer.parentId}">
+                            <a th:data-url="@{${childer.url}}" th:data-id="${childer.menuId}"
+                               th:data-title="${childer.menuName}" href="javascript:void(0);" class="site-demo-active"
+                               data-type="tabAdd" th:text="${childer.menuName}">系统变量</a>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- 选项卡和内容区 -->
+    <div class="layui-tab" lay-filter="home-tabs" lay-allowclose="true" style="margin: 0 0 0 200px;">
+        <!--固定栏-->
+        <ul class="layui-tab-title"></ul>
+        <ul class="rightmenu" style="display: none;position: absolute;">
+            <li data-type="refresh">刷新</li>
+            <li data-type="closeOthers">关闭其他</li>
+            <li data-type="closeRight">关闭右侧所有</li>
+            <li data-type="closeAll">关闭所有</li>
+        </ul>
+        <div class="layui-tab-content">
+        </div>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © layui.com - 底部固定区域
+    </div>
+</div>
+<script type="text/javascript" th:src="@{./javascript/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{./layer/layer.js}"></script>
+<script type="text/javascript" th:src="@{./layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{./javascript/sys_config.js}"></script>
+<script type="text/javascript" th:src="@{./javascript/index.js}"></script>
+<script type="text/javascript" th:src="@{js/AnQuanLayer.js}"></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- 基本信息 -->
+    <description>jykj-managementsystem</description>
+    <modelVersion>4.0.0</modelVersion>
+    <name>szjykj-company</name>
+    <packaging>pom</packaging>
+
+    <!-- 项目说明：这里作为聚合工程的父工程 -->
+    <groupId>com.szjykj.company</groupId>
+    <artifactId>szjykj-company</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <!-- 继承说明：这里继承SpringBoot提供的父工程 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.9.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <!-- 模块说明：这里声明多个子模块 -->
+    <modules>
+        <module>jykj-common</module>
+        <module>jykj-code</module>
+    </modules>
+
+    <!--依赖版本控制：子模块调用版本声明-->
+    <properties>
+        <java.version>1.8</java.version>
+        <spring.boot>2.0.9.RELEASE</spring.boot>
+        <mybaits.version>2.1.1</mybaits.version>
+        <mysql.version>5.1.38</mysql.version>
+        <lombok.version>1.18.12</lombok.version>
+        <alibaba.fastjson.version>1.2.58</alibaba.fastjson.version>
+        <alibaba.druid.version>1.0.11</alibaba.druid.version>
+        <jwt.version>0.9.0</jwt.version>
+        <apache.lang3.version>3.8.1</apache.lang3.version>
+        <alibaba.oss.version>3.6.0</alibaba.oss.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--阿里云对象存储-->
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${alibaba.oss.version}</version>
+            </dependency>
+            <!--Tomcat服务器-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-tomcat</artifactId>
+                <scope>compile</scope>
+            </dependency>
+
+            <!--启动项-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${spring.boot}</version>
+            </dependency>
+
+            <!--test依赖支持-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring.boot}</version>
+            </dependency>
+
+            <!--web依赖支持-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring.boot}</version>
+            </dependency>
+
+            <!-- thymeleaf -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-thymeleaf</artifactId>
+                <version>${spring.boot}</version>
+            </dependency>
+
+            <!-- shiro与spring整合依赖 -->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring</artifactId>
+                <version>1.4.2</version>
+            </dependency>
+
+            <!--shrio和thymeleaf集成的扩展依赖，为了能在页面上使用xsln:shrio的标签 -->
+            <dependency>
+                <groupId>com.github.theborakompanioni</groupId>
+                <artifactId>thymeleaf-extras-shiro</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+
+            <!--mysql依赖支持-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+
+            <!--mybatis依赖支持-->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybaits.version}</version>
+            </dependency>
+
+            <!--阿里数据连接池-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${alibaba.druid.version}</version>
+            </dependency>
+
+            <!--Lombok-->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <!--FastJson-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${alibaba.fastjson.version}</version>
+            </dependency>
+
+            <!--rabbitmq-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-amqp</artifactId>
+                <version>${spring.boot}</version>
+            </dependency>
+
+            <!--redis-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring.boot}</version>
+            </dependency>
+
+            <!--终极杀招-->
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>1.23</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.szjykj.company</groupId>
+                <artifactId>jykj-common</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.szjykj.company</groupId>
+                <artifactId>jykj-common</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <!--&lt;!&ndash;jwt token&ndash;&gt;
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${apache.lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>-->
+
+            <!--  &lt;!&ndash;log4j的依赖&ndash;&gt;
+              &lt;!&ndash;去掉springboot默认的日志&ndash;&gt;
+              <dependency>
+                  <groupId>org.springframework.boot</groupId>
+                  <artifactId>spring-boot-starter</artifactId>
+                  <exclusions>
+                      <exclusion>
+                          <groupId>org.springframework.boot</groupId>
+                          <artifactId>spring-boot-starter-logging</artifactId>
+                      </exclusion>
+                  </exclusions>
+              </dependency>
+
+              &lt;!&ndash;log4j的依赖&ndash;&gt;
+              <dependency>
+                  <groupId>log4j</groupId>
+                  <artifactId>log4j</artifactId>
+                  <version>1.2.17</version>
+              </dependency>
+              -->
+        </dependencies>
+    </dependencyManagement>
+
+</project>

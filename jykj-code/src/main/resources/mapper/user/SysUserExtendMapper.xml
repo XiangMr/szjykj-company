@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dome.szjykjcompany.mapper.SysUserExtendMapper">
+
+    <resultMap id="resultExtend" type="com.dome.szjykjcompany.pojo.SysUserExtend">
+        <id column="eid" property="eid"/>
+        <result column="uid" property="uid"/>
+        <result column="user_address" property="userAddress"/>
+        <result column="user_sex" property="userSex"/>
+        <result column="user_birthday" property="userBirthday"/>
+        <result column="user_changetime" property="userChangetime"/>
+        <result column="user_age" property="userAge"/>
+        <result column="user_phone" property="userPhone"/>
+        <result column="user_emils" property="userEmils"/>
+    </resultMap>
+
+    <sql id="QueryExtendList">
+        select * from sys_user_extend as ex
+    </sql>
+
+    <select id="queryExtendByuid" resultMap="resultExtend">
+        <if test="uid!=null and uid!=''">
+            <include refid="QueryExtendList"/> where ex.uid=#{uid}
+        </if>
+    </select>
+</mapper>

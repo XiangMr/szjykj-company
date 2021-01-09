@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dome.szjykjcompany.mapper.SysPermissionMapper">
+
+    <!--<resultMap id="userList" type="com.mybaits.demo.pojo.SysUser">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="phone" property="phone"/>
+        <result column="sex" property="sex"/>
+        <result column="address" property="address"/>
+        <result column="jf" property="jf"/>
+        <result column="created" property="created"/>
+        <result column="salt" property="salt"/>
+    </resultMap>-->
+
+    <sql id="selectList">
+          select * from sys_permission
+    </sql>
+    <!--查询用户权限-->
+    <select id="selectUserPermissionSet" resultType="string">
+       <include refid="selectList"/> as a
+        INNER JOIN sys_role_permission as b on a.permissionid=b.perid
+        INNER JOIN sys_user_role as c on b.roleid=c.roleId
+        <if test="uid!=null and uid !=''">
+            where c.userId=#{uid}
+        </if>
+    </select>
+
+    <!--查询所有权限-->
+    <select id="QueryPermissionList" resultType="com.dome.szjykjcompany.pojo.SysPermission">
+        <include refid="selectList"/>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,58 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: szjykj-item
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    password: sa1234
+    username: root
+    url: jdbc:mysql://localhost:3306/jykjcompany?characterEncoding=utf-8&useSSL=false
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 1 from dual
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    filters: stat, wall, log4j
+  http:
+    encoding:
+      charset: utf-8
+      force: true
+      enabled: true
+  redis:
+    host: 115.28.186.76
+    password: sa1234
+    port: 6379
+mybatis:
+  mapper-locations: classpath*:mapper/**/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+ly:
+  jwt:  #token认证
+    secret: leyou@Login(Auth}*^31)&heiMa% # 登录校验的密钥
+    pubKeyPath: E:\\tmp\\rsa\\id_rsa.pub # 公钥地址
+    priKeyPath: E:\\tmp\\rsa\\id_rsa.pri # 私钥地址
+    expire: 30 # 过期时间,单位分钟
+    cookieName: JY_TOKEN # cookie请求名称
+pwd:
+  encryption:
+    hashAlgorithmName: md5  #加密方式
+    hashIterations: 65      #散列次数
+setredis:
+  ceche: true
+aliyun:
+  oss:
+    accesskeyid: xxx
+    accesskeysecret: xxx
+    bucketName: xxx
+    endpoint: xxx
+    folder: xxx
+
+

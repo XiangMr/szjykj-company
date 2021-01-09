@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dome.szjykjcompany.mapper.Sys_MenuMapper">
+
+    <resultMap id="MenuList" type="com.dome.szjykjcompany.pojo.SysMenu">
+        <id column="menu_id" property="menuId"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="order_num" property="orderNum"/>
+        <result column="url" property="url"/>
+        <result column="visible" property="visible"/>
+        <result column="perms" property="perms"/>
+        <result column="icon" property="icon"/>
+    </resultMap>
+
+    <sql id="QueryMenu">
+          SELECT
+              *
+          FROM
+              sys_menu AS menu
+   </sql>
+
+    <select id="QuerySysMenuListAll" resultMap="MenuList">
+        <include refid="QueryMenu"/>
+    </select>
+</mapper>

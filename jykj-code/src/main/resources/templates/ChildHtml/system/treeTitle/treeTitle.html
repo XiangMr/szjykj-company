@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>部门树页面</title>
+		<link rel="stylesheet" th:href="@{../../../layui/css/layui.css}">
+	</head>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		
+		.xm {
+			margin: 20px 50px;
+		}
+	</style>
+
+	<body>
+		<!-- treetable表格 -->
+		<div class="xm">
+
+			<div class="xm-d2">
+				<div class="xm-d2-hang1">
+					<div class="pzright" style="width:101%;display: flex;justify-content: flex-start;float:right;">
+						<p style="padding: 12px;">
+							<button class="layui-btn layui-btn-radius" onclick="rootMenu()">添加根目录</button>
+							<button class="layui-btn" id="btn-expand">全部展开</button>
+							<button class="layui-btn" id="btn-fold">全部折叠</button>
+							<button class="layui-btn" id="btn-refresh">刷新表格</button>
+						</p>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="xm-d2-hang2">
+					<table id="permissionTable" class="layui-table" lay-filter="permissionTable"></table>
+				</div>
+			</div>
+		</div>
+		<div id="addPer" class="modal fade" aria-labelledby="editLabel" data-backdrop="static" style="display:none"></div>
+		<div id="updatePermission" class="modal fade" aria-labelledby="editLabel" data-backdrop="static" style="display:none">
+		</div>
+
+		<script th:src="@{../../../js/jquery.min.js}"></script>
+		<script th:src="@{../../../layui/layui.js}"></script>
+		<script>
+			/*使用模块加载的方式 加载文件*/
+			layui.config({
+				base: '../../../commom/layui/module/'
+			}).extend({
+				treetable: 'treetable-lay/treetable'
+			}).use(['layer', 'table', 'treetable'], function() {
+				var $ = layui.jquery;
+				var table = layui.table;
+				var layer = layui.layer;
+				var treetable = layui.treetable;
+
+				// 渲染表格
+				var renderTable = function() { //树桩表格参考文档：https://gitee.com/whvse/treetable-lay
+					layer.load(2);
+					treetable.render({
+						treeColIndex: 1, //树形图标显示在第几列
+						treeSpid: 0, //最上级的父级id
+						treeIdName: 'menuId', //id字段的名称
+						treePidName: 'parentId', //pid字段的名称
+						treeDefaultClose: true, //是否默认折叠
+						treeLinkage: false, //父级展开时是否自动展开所有子级
+						elem: '#permissionTable',
+						url: '/menu/getMenusystem',
+						page: false,
+						cols: [
+							[{
+								field: 'menuId',
+								title: '编号',
+								align: "center",
+								fixwidth: true,
+								width: 100
+
+							}, {
+								field: 'menuName',
+								title: '导航栏配置',
+								align: "center"
+							}, {
+								field: 'perms',
+								title: '权限控制',
+								align: "center"
+
+							}, {
+								field: 'url',
+								title: '资源地址',
+								align: "center"
+							}, {
+								field: 'orderNum',
+								title: '排序',
+								align: "center",
+								fixwidth: true,
+								width: 100
+							}, {
+								field: 'resType',
+								title: '类型',
+								align: "center",
+								templet: function(d) {
+									if(d.visible == 0) {
+										return '菜单';
+									} else {
+										return '按钮';
+									}
+								}
+							}, {
+								templet: complain,
+								title: '操作',
+								align: "center"
+							}]
+						],
+						done: function() {
+							layer.closeAll('loading');
+						}
+					});
+				};
+				renderTable();
+
+				$('#btn-expand').click(function() {
+					treetable.expandAll('#permissionTable');
+				});
+
+				$('#btn-fold').click(function() {
+					treetable.foldAll('#permissionTable');
+				});
+
+				$('#btn-refresh').click(function() {
+					renderTable();
+				});
+
+				function complain(d) { //操作中显示的内容
+					if(d.menuId != null && d.menuId != "") {
+						return ['<a class="operation layui-btn layui-btn-xs"  lay-event="editPermission" href="javascript:void(0)" onclick="addPermission(\'' +
+							d.menuId + '\')" title="新增">', '<i class="layui-icon  layui-icon-edit" >新增</i></a>&nbsp;&nbsp;&nbsp;',
+							'<a class="operation layui-btn layui-btn-xs"  lay-event="editPermission" href="javascript:void(0)" onclick="editPermission(\'' +
+							d.menuId + '\')" title="编辑">',
+							'<i class="layui-icon  layui-icon-edit" >编辑</i></a>&nbsp;&nbsp;&nbsp;',
+							'<a class="operation layui-btn layui-btn-xs layui-btn-danger" lay-event="delPermission" href="javascript:void(0)" onclick="delmenu(\'' +
+							d.menuId + '\')" title="删除">',
+							'<i class="layui-icon layui-icon-delete" >删除</i></a>',
+						].join('');
+					} else if(d.url = null) {
+						return ''
+					} else {
+						return ''
+					}
+				}
+
+				//操作(编辑)
+				editPermission = function(menuId) {
+					layer.open({
+						type: 2,
+						title:'新增系统树',
+						area: ['800px', '500px'],
+						content: 'update.html/'+menuId,
+						end: function() { //刷新页面（解决表格页面会加载另一个jsp问题）
+							location.reload();
+						}
+					})
+				};
+				//Add(编辑)
+				addPermission = function(menuId) {
+					layer.open({
+						type: 2,
+						title:'新增系统树',
+						area: ['800px', '500px'],
+						content: 'create.html/'+menuId,
+						end: function() { //刷新页面（解决表格页面会加载另一个jsp问题）
+							location.reload();
+						}
+					})
+				};
+				rootMenu = function () {
+					layer.open({
+						type:2,
+						title:'添加根目录',
+						area: ['800px', '500px'],
+						content:"rootmenu.html",
+						end: function () {
+							location.reload();
+						}
+					});
+				}
+			});
+
+			function addPermission() {
+				$("#addPer").load('addEditPage.html', function() {});
+			}
+
+
+			//操作(删除)
+			function delmenu(navigationId) {
+				layer.confirm('您是否要删除当前资源？删除当前资源会连同子资源一起删除!', {
+					icon: 3,
+					title: '提示',
+					offset: '300px',
+					anim: 4
+				}, function() {
+					$.ajax({
+						url: '/menu/delMenu?menuid=' +
+							navigationId,
+						contentType: 'application/json',
+						success: function(result) {
+							if(result=='1'){
+								layer.msg('删除成功',{icon:1,time:2000},function () {
+									refresh();
+								});
+							}else{
+								layer.msg('删除失败，请稍后再试！',{icon:2});
+							}
+						}
+					});
+				});
+			};
+			//刷新页面
+			function refresh() {
+				location.replace(location);
+			}
+		</script>
+
+	</body>
+
+</html>

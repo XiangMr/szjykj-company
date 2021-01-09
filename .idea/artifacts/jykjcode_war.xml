@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="jykjcode:war">
+    <output-path>$PROJECT_DIR$/jykj-code/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>jykjcode</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="jykj-system.war">
+      <element id="artifact" artifact-name="jykjcode:war exploded" />
+    </root>
+  </artifact>
+</component>

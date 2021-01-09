@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>layout 后台大布局 - Layui</title>
+    <link rel="stylesheet" th:href="@{../../layui/css/layui.css}" href="../../layui/css/layui.css">
+</head>
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-col-lg12">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>基本信息</legend>
+            </fieldset>
+            <div class="layui-field-box">
+                <div class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" th:value="${users.user.username}" name="username" required
+                                   lay-verify="required" placeholder="用户名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">出生年月</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="userBirthday" class="layui-input" th:value="${users.user.userExtend.userBirthday}"
+                                       id="birthday" placeholder="yyyy-MM-dd">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">家庭地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="userAddress" th:value="${users.user.userExtend.userAddress}"
+                                   required lay-verify="required" placeholder="家庭住址" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">年龄</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="userAge" th:value="${users.user.userExtend.userAge}" required
+                                   lay-verify="required" placeholder="年龄" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">电话</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="userPhone" th:value="${users.user.userExtend.userPhone}" required
+                                   lay-verify="required" placeholder="电话" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">Email</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="userEmils" th:value="${users.user.userExtend.userEmils}" required
+                                   lay-verify="required" placeholder="邮箱" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">性别</label>
+                        <span th:if="${users.user.userExtend.userSex}==0">
+								<input type="radio" name="userSex" value="1" title="男">
+							<input type="radio" name="userSex" value="0" title="女" checked>
+							</span>
+                        <span th:if="${users.user.userExtend.userSex}==1">
+								<input type="radio" name="userSex" value="1" title="男" checked>
+							<input type="radio" name="userSex" value="0" title="女">
+							</span>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">当前职务</label>
+                        <div class="layui-input-block">
+                            <select  lay-verify="required">
+                                <option th:each="role:${users.roles}" th:text="${role}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-upload">
+                            <button type="button" class="layui-btn" style="float: left;" id="test1">上传头像</button>
+                            <div class="layui-upload-list">
+                                <div style="height: 150px; width: 150px; border: 1px #192,192,192 solid;float: left;">
+                                    <img class="layui-upload-img" style="height: 150px; width: 150px;" id="demo1">
+                                    <p id="demoText"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="margin-top: -10px;">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="formDemo">提交修改</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" th:src="@{../../js/jquery.min.js}" src="../../javascript/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{../../layui/layui.js}" src="../../layui/layui.js"></script>
+<script>
+    layui.use(['form', 'laydate', 'upload'], function () {
+        var form = layui.form;
+        var laydate = layui.laydate;
+        var $ = layui.jquery;
+            upload = layui.upload;
+        laydate.render({
+            elem: '#birthday'
+        });
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            $.ajax({
+                type: "post",
+                data: JSON.stringify(data.field),
+                url: "/user/updateUser",
+                dataType: "json",
+                contentType: 'application/json;charset=utf-8',
+                success: function (res) {
+                    if (res == '1') {
+                        layer.msg('用户信息修改成功！', {
+                            icon: 1,
+                            time:1500
+                        });
+                        window.close();
+                    }
+                    if (res == '2') {
+                        layer.msg('用户信息修改失败，请稍后再试', {
+                            icon: 2,
+                            time:1500
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#test1',
+            url: '/user/uploadFile', //改成您自己的上传接口
+            before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                });
+            },
+            done: function (res) {
+                //如果上传失败
+                if (res.code > 0) {
+                    return layer.msg('上传失败');
+                }
+                layer.msg("上传成功",{icon:1,time:1500});
+            }
+        });
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>layout 后台大布局 - Layui</title>
+		<link rel="stylesheet" href="../../layui/css/layui.css">
+	</head>
+	<div class="layui-body" style="margin-left: -212px; margin-top: -15px;">
+		<div style="padding: 15px;">
+			<fieldset class="layui-elem-field">
+				<legend>控制台-渠道统计</legend>
+				<div id="main" style="width: 99	%;margin:0 auto;height:400px; margin-top: 20px;"></div>
+				<div style="width: 216px; margin-left: 82%;">
+					<table>
+						<tr>
+							<td><button type="button" style="float: left;" class="layui-btn layui-btn-normal">月度总计：3单(台)</button></td>
+							<td><button type="button" style="float: left;" class="layui-btn layui-btn-fluid">年度总计：5(台)</button></td>
+						</tr>
+					</table>
+				</div>
+			</fieldset>
+		</div>
+		<!-- 内容主体区域 -->
+		<div style="padding: 15px;">
+			<fieldset class="layui-elem-field">
+				<legend>控制台-系统信息</legend>
+				<div class="layui-field-box">
+					<table class="layui-table">
+						<colgroup>
+						</colgroup>
+						<thead>
+							<tr>
+								<th>开发语言</th>
+								<th>框架</th>
+								<th>版本</th>
+								<th>最后修改时间</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>JAVA</td>
+								<td>Spring-Boot,MyBatis,Shiro</td>
+								<td>v2.0.9</td>
+								<td>2020年10月21日16:04:49</td>
+							</tr>
+							<tr>
+								<td>JS</td>
+								<td>Layui</td>
+								<td>v5.0.6</td>
+								<td>2020年10月21日16:06:08</td>
+							</tr>
+							<tr>
+								<td>Mysql</td>
+								<td>Aliyu Mysql</td>
+								<td>v5.3.8</td>
+								<td>Admin</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</fieldset>
+			<!--banner饼图区域-->
+		</div>
+	</div>
+	<script type="text/javascript" src="../../javascript/jquery.min.js"></script>
+	<script type="text/javascript" src="console.js"></script>
+	<script type="text/javascript" src="../../echartsJS/echarts.min.js"></script>
+</html>
