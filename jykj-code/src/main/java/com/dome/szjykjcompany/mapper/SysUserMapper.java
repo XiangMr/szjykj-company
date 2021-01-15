@@ -39,4 +39,11 @@ public interface SysUserMapper {
      * 修改用户基本信息
      */
     public int updateUserEx(SysUser user);
+
+    /**
+     * 新增用户
+     * @param user ->对象
+     * @return ->自增的id
+     */
+    public int addUserByExtend(SysUser user);
 }

@@ -23,4 +23,10 @@
             <include refid="QueryExtendList"/> where ex.uid=#{uid}
         </if>
     </select>
+
+    <insert id="addUserExtend" parameterType="com.dome.szjykjcompany.pojo.SysUserExtend">
+        insert into sys_user_extend(uid,user_address,user_sex,user_birthday,user_changeTime,user_age,user_phone,user_emils)values(
+          #{uid},#{userAddress},#{userSex},#{userBirthday},#{userChangetime},#{userAge},#{userPhone},#{userEmils}
+        )
+    </insert>
 </mapper>

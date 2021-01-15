@@ -2,6 +2,7 @@ package com.dome.szjykjcompany.pojo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Transient;
 
 import java.util.Date;
 
@@ -29,9 +30,20 @@ public class SysUser {
 
     private String userImages;
 
-    private Float type;
+    private int type;
 
     private SysUserExtend userExtend;
+
+    public SysUser(String username, String loginname, String userpwd, String usersalt, Integer role, Date lastlogintime, String userImages, int type) {
+        this.username = username;
+        this.loginname = loginname;
+        this.userpwd = userpwd;
+        this.usersalt = usersalt;
+        this.role = role;
+        this.lastlogintime = lastlogintime;
+        this.userImages = userImages;
+        this.type = type;
+    }
 
     @Override
     public String toString() {
@@ -64,7 +76,7 @@ public class SysUser {
         this.userExtend = userExtend;
     }
 
-    public SysUser(Integer uid, String username, String loginname, String userpwd, String usersalt, Integer role, Date lastlogintime, String userImages, Float type, SysUserExtend userExtend) {
+    public SysUser(Integer uid, String username, String loginname, String userpwd, String usersalt, Integer role, Date lastlogintime, String userImages, int type, SysUserExtend userExtend) {
         this.uid = uid;
         this.username = username;
         this.loginname = loginname;

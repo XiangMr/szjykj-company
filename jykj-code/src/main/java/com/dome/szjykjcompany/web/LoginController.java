@@ -141,30 +141,4 @@ public class LoginController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 
-    /**
-     * 图片上传
-     * @param uploadFile
-     * @return
-     * @throws Exception
-     */
-  /*  @PatchMapping("/pic/alimg")
-    @ResponseBody
-    public String picOSS(MultipartFile uploadFile) throws Exception {
-        String endpoint = "http://oss-cn-shanghai.aliyuncs.com";
-        // 云账号AccessKey有所有API访问权限，建议遵循阿里云安全最佳实践，创建并使用RAM子账号进行API访问或日常运维，请登录
-        // https://ram.console.aliyun.com 创建
-        String accessKeyId = "";
-        String accessKeySecret = "";
-        // 创建OSSClient实例
-        OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
-        // 上传
-        String filename = FtpUtil.genImageName() + uploadFile.getOriginalFilename().substring(uploadFile.getOriginalFilename().lastIndexOf("."));
-        ossClient.putObject(bucktName, filename, new ByteArrayInputStream(uploadFile.getBytes()));
-        // 关闭client
-        ossClient.shutdown();
-        Date expiration = new Date(new Date().getTime() + 3600l * 1000 * 24 * 365 * 10);
-        String url = ossClient.generatePresignedUrl(bucktName, filename, expiration).toString();
-        System.out.println(url);
-        return url;
-    }*/
 }

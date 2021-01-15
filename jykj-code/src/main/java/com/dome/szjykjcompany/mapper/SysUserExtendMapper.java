@@ -15,4 +15,6 @@ public interface SysUserExtendMapper {
      * 通过uid 查询用户更多信息
      */
     public SysUserExtend queryExtendByuid(Integer uid);
+
+    public int addUserExtend(SysUserExtend userExtend);
 }

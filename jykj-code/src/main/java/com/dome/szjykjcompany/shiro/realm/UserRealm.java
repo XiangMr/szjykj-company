@@ -56,7 +56,7 @@ public class UserRealm extends AuthorizingRealm {
                 Set<String> pers = permissionService.selectUserPermissionSet(user.getUid());
                 //创建登录用户对象，传入用户信息，角色表列，权限列表
                 LoginUserVo loginUserVo = new LoginUserVo(user, roles, pers);
-                //将用户名作为加密的盐值
+                //加入盐值
                 ByteSource bytes = ByteSource.Util.bytes(Base64.base64ToByteArray(user.getUsersalt()));
                 //System.out.println("user.getUsersalt() = " + user.getUsersalt());
                 //创建身份验证对象

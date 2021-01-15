@@ -67,5 +67,32 @@
         </where>
     </update>
 
+    <!--用户新增-->
+    <insert id="addUserByExtend" parameterType="com.dome.szjykjcompany.pojo.SysUser" useGeneratedKeys="true" keyProperty="uid">
+          insert into sys_user(LoginName,userName,userImages,userPwd,userSalt,role,LastLoginTime,`type`)values
+          (
+
+          <if test="loginname!=null and loginname!='' ">
+              #{loginname}
+          </if>
+          <if test="username!=null and username!='' ">
+            ,#{username}
+          </if>
+          <if test="userImages!=null and userImages!='' ">
+             ,#{userImages}
+          </if>
+          <if test="userpwd!=null and userpwd!='' ">
+            ,#{userpwd}
+          </if>
+          <if test="usersalt!=null and usersalt!='' ">
+            ,#{usersalt}
+          </if>
+          <if test="role!=null and role!='' ">
+            ,#{role}
+          </if>
+            ,#{lastlogintime},0
+        )
+    </insert>
+
 
 </mapper>

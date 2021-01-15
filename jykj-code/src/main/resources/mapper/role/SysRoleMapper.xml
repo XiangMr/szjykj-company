@@ -31,6 +31,9 @@
             <where>role.userId=#{uid}</where>
         </if>
     </select>
+    <select id="QueryRoleList" resultType="com.dome.szjykjcompany.pojo.SysRole">
+        select * from sys_user_role as role
+    </select>
 
 
 </mapper>

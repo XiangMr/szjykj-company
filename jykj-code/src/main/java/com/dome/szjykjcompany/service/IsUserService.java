@@ -1,11 +1,14 @@
 package com.dome.szjykjcompany.service;
 
 
+import com.alibaba.druid.util.Base64;
 import com.dome.szjykjcompany.jwt.JwtProperties;
 import com.dome.szjykjcompany.jwt.JwtUtils;
 import com.dome.szjykjcompany.jwt.pojo.UserInfo;
+import com.dome.szjykjcompany.mapper.SysUserExtendMapper;
 import com.dome.szjykjcompany.mapper.SysUserMapper;
 import com.dome.szjykjcompany.pojo.SysUser;
+import com.dome.szjykjcompany.pojo.SysUserExtend;
 import com.dome.szjykjcompany.pojo.Vo.LoginUserVo;
 import com.dome.szjykjcompany.pojo.Vo.ResultVO;
 import com.dome.szjykjcompany.utils.CodecUtils;
@@ -13,7 +16,9 @@ import com.dome.szjykjcompany.utils.applicationUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -32,6 +37,9 @@ public class IsUserService {
 
     @Autowired
     private SysUserMapper sysUserMapper;
+
+    @Autowired
+    private SysUserExtendMapper sysUserExtendMapper;
 
     @Autowired
     private JwtProperties prop;
@@ -145,5 +153,31 @@ public class IsUserService {
    @Transactional
     public int updateUserEx(SysUser user){
         return sysUserMapper.updateUserEx(user);
+    }
+
+    /**
+     * 新增用户
+     * @param user ->对象
+     * @return ->自增的id
+     */
+    @Transactional
+    public int addUserByExtend(SysUser user, SysUserExtend sysUserExtend){
+        String salt = CodecUtils.generateSalt();
+        String  bCryptPassword = new SimpleHash("md5",user.getUserpwd(),salt,65).toString();
+        user.setType(0);
+        user.setLastlogintime(new Date());
+        user.setUserImages("http://szjykj.oss-cn-hangzhou.aliyuncs.com/jykj-image/317094未标题-1.jpg");
+        user.setUsersalt(salt);
+        user.setUserpwd(bCryptPassword);
+        int result = sysUserMapper.addUserByExtend(user);
+        if (result>0){
+            sysUserExtend.setUid(user.getUid());
+            sysUserExtend.setUserChangetime(new Date());
+            int count = sysUserExtendMapper.addUserExtend(sysUserExtend);
+            if (count>0){
+                return 1;
+            }
+        }
+        return 0;
     }
 }
