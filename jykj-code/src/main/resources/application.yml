@@ -49,10 +49,10 @@ setredis:
   ceche: true
 aliyun:
   oss:
-    accesskeyid: LTAI4GHm991RpFxYDNtWCqRssa
-    accesskeysecret: MzXJxOZgv7aGW1z9D4FlPpVyAKsaZssa
+    accesskeyid: ####
+    accesskeysecret: ###
     bucketName: szjykj
-    endpoint: http://oss-cn-hangzhou.aliyuncs.comdw
+    endpoint: ####
     folder: jykj-imagewd
 
 
