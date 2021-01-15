@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>layout 后台大布局 - Layui</title>
+    <link rel="stylesheet" th:href="@{../../../layui/css/layui.css}" href="../../layui/css/layui.css">
+</head>
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-col-lg12">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>注册用户(系统管理员)</legend>
+            </fieldset>
+            <div class="layui-field-box">
+                <div class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">登录名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="user-loginName" name="loginName" required lay-verify="required" placeholder="登录时所需要的用户名" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">登录密码</label>
+                        <div class="layui-input-block">
+                            <input type="text"  name="userpwd" required lay-verify="required" placeholder="登录时所需要的密码" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="userName" required lay-verify="required" placeholder="用户真实名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">出生年月</label>
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input" id="birthday" name="userBirthday" placeholder="yyyy-MM-dd">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">家庭地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="userAddress" required lay-verify="required" placeholder="家庭住址" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">年龄</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="userAge" required lay-verify="required" placeholder="年龄" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">电话</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="userPhone" required lay-verify="required" placeholder="电话" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">Email</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="userEmils" required lay-verify="required" placeholder="邮箱" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">性别</label>
+                        <input type="radio" name="userSex" value="1" title="男">
+                        <input type="radio" name="userSex" value="0" title="女" checked>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">赋予职务</label>
+                        <div class="layui-input-block">
+                            <select  lay-verify="required" name="role">
+                                <option th:each="role:${users}" th:text="${role.roleName}" th:value="${role.roleId}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="margin-top: -10px;">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="formDemo">提交修改</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" th:src="@{../js/jquery.min.js}" src="../../javascript/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{../layui/layui.js}" src="../../layui/layui.js"></script>
+<script>
+    layui.use('laydate', function() {
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#birthday'
+        });
+    });
+
+    $("[name='loginName']").blur(function () {
+        var loginName=$("#user-loginName").val();
+        $.ajax({
+            type:"get",
+            url:"/user/isLoginName?name="+loginName,
+            dataType: "json",
+            success:function (res) {
+                if (res=='1'){
+                    $("#user-loginName").val("");
+                    alert("存在该登录名称!!!!您不可以使用该名称");
+                }
+            }
+        })
+    });
+
+    layui.use(['form'], function() {
+        var form = layui.form
+        //监听提交
+        form.on('submit(formDemo)', function(data) {
+            $.ajax({
+                type: "post",
+                data: JSON.stringify(data.field),
+                url: "/user/Adduser",
+                contentType: 'application/json;charset=utf-8',
+                dataType: "json",
+                success: function(res) {
+                    if(res == '1') {
+                        layer.msg('用户注册成功！', {
+                            icon: 1
+                        });
+                        window.close();
+                    }
+                    if(res == '0') {
+                        layer.msg('用户注册失败！', {
+                            icon: 2
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+    });
+    layui.use('upload', function() {
+        var $ = layui.jquery,
+            upload = layui.upload;
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#test1',
+            url: 'https://httpbin.org/post' //改成您自己的上传接口
+            ,
+            before: function(obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result) {
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                });
+            },
+            done: function(res) {
+                //如果上传失败
+                if(res.code > 0) {
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+            },
+            error: function() {
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function() {
+                    uploadInst.upload();
+                });
+            }
+        });
+    });
+</script>
+</body>
+
+</html>
